@@ -1,5 +1,6 @@
 package com.hubble;
 
+import com.hubble.data.Person;
 import com.hubble.data.Transaction;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -40,12 +41,22 @@ public final class TestbenchUtil {
     }
 
     /**
+     * Alternate to Collections.max()
      *
-     * @param list
+     * @param collection
      * @return
      */
-    static Optional<Integer> getMax(List<Integer> list) {
-        return list.stream().filter(Objects::nonNull).max(Integer::compareTo);
+    static <T extends Comparable<? super T>> Optional<T> getMax(Collection<T> collection) {
+        return collection.stream().filter(Objects::nonNull).max(T::compareTo);
+    }
+
+    /**
+     *
+     * @param persons
+     * @return
+     */
+    static Optional<Person> getOlderMan(List<Person> persons) {
+        return persons.stream().filter(Objects::nonNull).max(Comparator.comparing(Person::getAge));
     }
 
 }

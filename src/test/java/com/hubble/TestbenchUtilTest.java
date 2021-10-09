@@ -1,19 +1,21 @@
 package com.hubble;
 
+import com.hubble.data.Person;
 import com.hubble.data.Transaction;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import java.util.*;
 
 class TestbenchUtilTest {
 
-    @org.junit.jupiter.api.Test
+    @Test
     void deleteDuplicates() {
         double[] array = {2,1,4,2,3};
         double[] expected = {1,4,2,3};
         Assertions.assertArrayEquals(expected, TestbenchUtil.deleteDuplicates(array));
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void getAverageRefundMapByCurrency() {
         List<Transaction> transactionList = Arrays.asList(
                 new Transaction(Transaction.Type.REFUND, "EUR", 2000L),
@@ -33,5 +35,23 @@ class TestbenchUtilTest {
         Map<String, Double> actual = TestbenchUtil.getAverageRefundMapByCurrency(transactionList);
 
         Assertions.assertEquals(expected.entrySet(), actual.entrySet());
+    }
+
+    @Test
+    void getMax() {
+        List<Integer> list = Arrays.asList(5, 8, 9, 0, -5, 20, 10);
+        Assertions.assertEquals(20, TestbenchUtil.getMax(list).orElse(null)); // Collections.max(list)
+    }
+
+    @Test
+    void getOlderMan() {
+        List<Person> persons = Arrays.asList(
+                new Person("Alex", (byte) 27),
+                new Person("Julia", (byte) 25),
+                null,
+                new Person("Jhon", (byte) 32)
+        );
+
+        Assertions.assertEquals("Jhon", TestbenchUtil.getOlderMan(persons).orElseThrow(RuntimeException::new).getName());
     }
 }
